@@ -1,38 +1,41 @@
-[(try it here)](https://obamify.com/)
-# obamify
-revolutionary new technology that turns any image into obama
+# hidog
 
-![example](example.gif)
+Hidog turns any image into the bundled Border Collie target by rearranging the source image's pixels and animating them into place.
 
-# How to use
+![Hidog target](src/app/calculate/target.webp)
 
-**Use the ui at the top of the window to control the animation, choose between saved transformations, and generate new ones.** You can change the source image and target image, and choose how they are cropped to a square (tip: if both the images are faces, try making the eyes overlap). You can also change these advanced settings:
-| Setting               | Description                                                                                     |
-|-----------------------|-------------------------------------------------------------------------------------------------|
-| resolution            | How many cells the images will be divided into. Higher resolution will capture more high frequency details. |
-| proximity importance  | How much the algorithm changes the original image to make it look like the target image. Increase this if you want a more subtle transformation. |
-| algorithm             | The algorithm used to calculate the assignment of each pixel. Optimal will find the mathematically optimal solution, but is extremely slow for high resolutions. |
+Try the web version at <https://alex6511.github.io/hidog/>.
 
-# Installations
+## How to use
 
-Install the latest version in [releases](https://github.com/Spu7Nix/obamify/releases). Unzip and run the .exe file inside!
-**Note for macOS users:**
-Run 'xattr -C <path/to/app.app>' in your terminal to remove the damaged app warning. 
-### Building from source
+Use the controls at the top of the window to choose a source image, play or reverse the animation, switch between saved transformations, and create new ones. The default target is the bundled dog image, while the advanced editor still allows a custom target.
 
-1. Install [Rust](https://www.rust-lang.org/tools/install)
-2. Run `cargo run --release` in the project folder
+The output keeps the source image's colors: Hidog rearranges pixels rather than copying or generating the target image. You can also adjust:
 
-#### Running the web version locally
-1. Install [Rust](https://www.rust-lang.org/tools/install)
-2. Install the required target with `rustup target add wasm32-unknown-unknown`
-3. Install Trunk with `cargo install --locked trunk`
-4. Run `trunk serve --release --open`
+| Setting | Description |
+| --- | --- |
+| Resolution | How many cells the images are divided into. Higher values preserve finer details but take longer to process. |
+| Proximity importance | How strongly pixels prefer to stay near their original positions. Raise it for a subtler transformation. |
+| Algorithm | `Optimal` finds a mathematically optimal assignment but is extremely slow at high resolutions; `Genetic` is the practical default. |
 
-# Contributing
+## Run locally
 
-Please open an issue or a pull request if you have any suggestions or find any bugs :)
+Install [Rust](https://www.rust-lang.org/tools/install), then run:
 
-# How it works
+```text
+cargo run --release
+```
 
-magic
+For the web build:
+
+```text
+rustup target add wasm32-unknown-unknown
+cargo install --locked trunk
+trunk serve --release --open
+```
+
+Pushes to `main` are deployed to GitHub Pages by the repository workflow.
+
+## Credits
+
+Hidog is based on [Spu7Nix/obamify](https://github.com/Spu7Nix/obamify) and remains available under the MIT license.

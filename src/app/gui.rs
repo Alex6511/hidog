@@ -2,7 +2,7 @@
 use super::DRAWING_ALPHA;
 
 use super::GuiMode;
-use super::ObamifyApp;
+use super::HidogApp;
 use crate::app::DEFAULT_RESOLUTION;
 use crate::app::calculate;
 use crate::app::calculate::ProgressMsg;
@@ -56,14 +56,14 @@ pub(crate) struct GuiState {
     pub current_preset: usize,
     error_message: Option<String>,
 
-    has_obamified_once: bool,
+    has_transformed_once: bool,
 }
 
 impl GuiState {
     pub fn default(
         presets: Vec<Preset>,
         current_preset: usize,
-        has_obamified_once: bool,
+        has_transformed_once: bool,
     ) -> GuiState {
         GuiState {
             animate: true,
@@ -83,7 +83,7 @@ impl GuiState {
             saved_config: None,
             current_preset,
             error_message: None,
-            has_obamified_once,
+            has_transformed_once,
         }
     }
 
@@ -134,10 +134,14 @@ fn hide_icons() {
     }
 }
 
-impl App for ObamifyApp {
+impl App for HidogApp {
     fn save(&mut self, storage: &mut dyn eframe::Storage) {
-        eframe::set_value(storage, "presets", &self.gui.presets);
-        eframe::set_value(storage, "has_obamified_once", &self.gui.has_obamified_once);
+        eframe::set_value(storage, "hidog_presets_v1", &self.gui.presets);
+        eframe::set_value(
+            storage,
+            "has_transformed_once",
+            &self.gui.has_transformed_once,
+        );
     }
     fn update(&mut self, ctx: &egui::Context, frame: &mut Frame) {
         let Some(rs) = frame.wgpu_render_state() else {
@@ -477,8 +481,8 @@ impl App for ObamifyApp {
                                         }
                                     });
 
-                                // Make button glow if user hasn't obamified once
-                                let button_response = if !self.gui.has_obamified_once {
+                                // Make the button glow until the first transformation.
+                                let button_response = if !self.gui.has_transformed_once {
                                     // Create a glowing effect by animating the button outline
                                     let time = ui.input(|i| i.time);
                                     let pulse = ((time * 2.0).sin() * 0.5 + 0.5) as f32;
@@ -488,11 +492,11 @@ impl App for ObamifyApp {
                                         (200.0 + pulse * 55.0) as u8,
                                     );
 
-                                    let button = egui::Button::new("obamify new image")
+                                    let button = egui::Button::new("turn new image into dog")
                                         .stroke(egui::Stroke::new(1.0, glow_color));
                                     ui.add(button)
                                 } else {
-                                    ui.button("obamify new image")
+                                    ui.button("turn new image into dog")
                                 };
 
                                 if button_response.clicked() {
@@ -507,9 +511,9 @@ impl App for ObamifyApp {
                                         hide_icons();
                                     } else {
                                         prompt_image(
-                                            "choose image to obamify",
+                                            "choose image to transform",
                                             self,
-                                            |name: String, mut img: SourceImg, app: &mut ObamifyApp| {
+                                            |name: String, mut img: SourceImg, app: &mut HidogApp| {
                                                 img = ensure_reasonable_size(img);
                                                 app.gui.configuring_generation = Some((
                                                     img,
@@ -646,9 +650,9 @@ impl App for ObamifyApp {
 
                             if change_source {
                                 prompt_image(
-                                    "choose image to obamify",
+                                    "choose image to transform",
                                     self,
-                                    |_, mut img: SourceImg, app: &mut ObamifyApp| {
+                                    |_, mut img: SourceImg, app: &mut HidogApp| {
                                         img = ensure_reasonable_size(img);
                                         if let Some((src, _, cache)) =
                                             &mut app.gui.configuring_generation
@@ -662,7 +666,7 @@ impl App for ObamifyApp {
                                 prompt_image(
                                     "choose custom target image",
                                     self,
-                                    |_, mut img: SourceImg, app: &mut ObamifyApp| {
+                                    |_, mut img: SourceImg, app: &mut HidogApp| {
                                         img = ensure_reasonable_size(img);
                                         if let Some((_, settings, cache)) =
                                             &mut app.gui.configuring_generation
@@ -840,7 +844,7 @@ impl App for ObamifyApp {
                                         self.gui.presets.len() - 1,
                                     );
                                     self.gui.animate = true;
-                                    self.gui.has_obamified_once = true;
+                                    self.gui.has_transformed_once = true;
                                     self.gui.hide_progress_modal();
                                     ui.close();
                                     break;
@@ -1166,13 +1170,13 @@ impl App for ObamifyApp {
 
 fn prompt_image(
     title: &'static str,
-    app: &mut ObamifyApp,
-    callback: impl FnOnce(String, image::RgbImage, &mut ObamifyApp) + 'static,
+    app: &mut HidogApp,
+    callback: impl FnOnce(String, image::RgbImage, &mut HidogApp) + 'static,
 ) {
     #[cfg(target_arch = "wasm32")]
     {
         use wasm_bindgen_futures::spawn_local;
-        let app_ptr: *mut ObamifyApp = app;
+        let app_ptr: *mut HidogApp = app;
 
         spawn_local(async move {
             if let Some(handle) = rfd::AsyncFileDialog::new()

@@ -1,5 +1,5 @@
-var cacheName = "obamify-pwa"
-var filesToCache = [] //["./", "./index.html", "./obamify.js", "./obamify_bg.wasm"]
+var cacheName = "hidog-pwa-v1"
+var filesToCache = [] //["./", "./index.html", "./hidog.js", "./hidog_bg.wasm"]
 
 /* Start the service worker and cache all of the app's content */
 self.addEventListener("install", function (e) {

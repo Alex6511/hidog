@@ -77,7 +77,7 @@ use wasm_bindgen::{JsCast, JsValue};
 #[cfg(target_arch = "wasm32")]
 use web_sys::{Worker, WorkerOptions, WorkerType, js_sys};
 
-pub struct ObamifyApp {
+pub struct HidogApp {
     //prev_frame_time: std::time::Instant,
     // UI state
     size: (u32, u32),
@@ -165,7 +165,7 @@ pub struct ObamifyApp {
     reverse: bool,
 }
 
-impl ObamifyApp {
+impl HidogApp {
     fn apply_sim_init(
         &mut self,
         device: &wgpu::Device,
@@ -262,13 +262,13 @@ impl ObamifyApp {
 
         // get all folders in ../presets
         let presets: Vec<Preset> = if let Some(storage) = cc.storage {
-            eframe::get_value(storage, "presets").unwrap_or(get_presets())
+            eframe::get_value(storage, "hidog_presets_v1").unwrap_or(get_presets())
         } else {
             get_presets()
         };
 
-        let has_obamified_once = if let Some(storage) = cc.storage {
-            eframe::get_value::<bool>(storage, "has_obamified_once").unwrap_or(false)
+        let has_transformed_once = if let Some(storage) = cc.storage {
+            eframe::get_value::<bool>(storage, "has_transformed_once").unwrap_or(false)
         } else {
             false
         };
@@ -798,7 +798,7 @@ impl ObamifyApp {
             preview_image: None,
             #[cfg(not(target_arch = "wasm32"))]
             stroke_count: 0,
-            gui: gui::GuiState::default(presets, random_preset, has_obamified_once),
+            gui: gui::GuiState::default(presets, random_preset, has_transformed_once),
             frame_count: 0,
             #[cfg(not(target_arch = "wasm32"))]
             current_drawing_id: Arc::new(AtomicU32::new(0)),
@@ -845,12 +845,12 @@ impl ObamifyApp {
             .and_then(|v| v.as_string())
             .and_then(|url| url.rsplit('/').next().map(|s| format!("./{}", s)))
             .unwrap_or_else(|| {
-                // Fallback: parse from Error stack trace to find obamify-{hash}.js
+                // Fallback: parse from Error stack trace to find hidog-{hash}.js
                 let error = js_sys::Error::new("stack trace");
                 if let Ok(stack_val) = js_sys::Reflect::get(&error, &JsValue::from_str("stack")) {
                     if let Some(stack) = stack_val.as_string() {
-                        // Look for obamify-{hash}.js in the stack
-                        if let Some(start) = stack.find("obamify-") {
+                        // Look for hidog-{hash}.js in the stack
+                        if let Some(start) = stack.find("hidog-") {
                             let rest = &stack[start..];
                             if let Some(end) = rest.find(".js") {
                                 let filename = &rest[..end + 3];
@@ -860,7 +860,7 @@ impl ObamifyApp {
                     }
                 }
 
-                String::from("./obamify.js")
+                String::from("./hidog.js")
             });
 
             // Use worker.js and pass the script name as a query parameter

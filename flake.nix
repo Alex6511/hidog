@@ -1,5 +1,5 @@
 {
-  description = "revolutionary new technology that turns any image into obama";
+  description = "Turn any image into the bundled Border Collie target";
 
   inputs = {
     nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/0.1";
@@ -62,7 +62,7 @@
         { pkgs, systemStr }:
         {
           default = pkgs.rustPlatform.buildRustPackage {
-            pname = "obamify";
+            pname = "hidog";
             version = "1.1";
 
             src = ./.;
@@ -95,7 +95,7 @@
             );
 
             postFixup = pkgs.lib.optionalString pkgs.stdenv.isLinux ''
-              wrapProgram $out/bin/obamify \
+              wrapProgram $out/bin/hidog \
                 --set-default WINIT_UNIX_BACKEND wayland \
                 --set-default WGPU_BACKEND vulkan \
                 --set LD_LIBRARY_PATH ${
@@ -117,10 +117,10 @@
             enableParallelBuild = true;
 
             meta = {
-              description = "revolutionary new technology that turns any image into obama";
-              homepage = "htpps://github/Spu7Nix/obamify";
+              description = "Turn any image into the bundled Border Collie target";
+              homepage = "https://github.com/Alex6511/hidog";
               license = pkgs.lib.licenses.mit;
-              mainProgram = "obamify";
+              mainProgram = "hidog";
             };
           };
         }
