@@ -18,9 +18,9 @@ fn main() -> eframe::Result {
         ..Default::default()
     };
     eframe::run_native(
-        "obamify",
+        "hidog",
         native_options,
-        Box::new(|cc| Ok(Box::new(obamify::ObamifyApp::new(cc)))),
+        Box::new(|cc| Ok(Box::new(hidog::HidogApp::new(cc)))),
     )
 }
 
@@ -30,7 +30,7 @@ fn start_app() {
     use eframe::wasm_bindgen::JsCast as _;
     std::panic::set_hook(Box::new(console_error_panic_hook::hook));
 
-    //web_sys::console::log_1(&"Starting obamify...".into());
+    //web_sys::console::log_1(&"Starting hidog...".into());
 
     // Redirect `log` message to `console.log` and friends:
     eframe::WebLogger::init(log::LevelFilter::Warn).ok();
@@ -79,7 +79,7 @@ fn start_app() {
             .start(
                 canvas,
                 web_options,
-                Box::new(|cc| Ok(Box::new(obamify::ObamifyApp::new(cc)))),
+                Box::new(|cc| Ok(Box::new(hidog::HidogApp::new(cc)))),
             )
             .await;
 
@@ -119,7 +119,7 @@ pub fn main() {
         .dyn_ref::<web_sys::DedicatedWorkerGlobalScope>()
         .is_some()
     {
-        obamify::worker_entry(); // <- your existing function that sets onmessage, etc.
+        hidog::worker_entry(); // <- your existing function that sets onmessage, etc.
         return;
     }
 

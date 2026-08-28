@@ -6,29 +6,29 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 
 <head>
-    <title>obamify</title>
+    <title>hidog</title>
 
-    <meta name="description" content="revolutionary new technology that turns any image into obama">
+    <meta name="description" content="Turn any image into a Border Collie with animated pixel rearrangement">
     <meta name="keywords" content="image processing, image morphing, optimal transport, meme generator">
-    <meta name="author" content="Spu7Nix">
+    <meta name="author" content="Alex6511">
     <meta name="robots" content="index, follow">
 
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://obamify.com/">
-    <meta property="og:title" content="obamify">
-    <meta property="og:description" content="revolutionary new technology that turns any image into obama">
-    <meta property="og:image" content="https://obamify.com/assets/android-chrome-512x512.png">
+    <meta property="og:url" content="https://alex6511.github.io/hidog/">
+    <meta property="og:title" content="hidog">
+    <meta property="og:description" content="Turn any image into a Border Collie with animated pixel rearrangement">
+    <meta property="og:image" content="https://alex6511.github.io/hidog/assets/android-chrome-512x512.png">
     <meta property="og:image:width" content="512">
     <meta property="og:image:height" content="512">
-    <meta property="og:site_name" content="obamify">
+    <meta property="og:site_name" content="hidog">
 
     <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://obamify.com/">
-    <meta property="twitter:title" content="obamify">
-    <meta property="twitter:description" content="revolutionary new technology that turns any image into obama">
-    <meta property="twitter:image" content="https://obamify.com/assets/android-chrome-512x512.png">
+    <meta property="twitter:url" content="https://alex6511.github.io/hidog/">
+    <meta property="twitter:title" content="hidog">
+    <meta property="twitter:description" content="Turn any image into a Border Collie with animated pixel rearrangement">
+    <meta property="twitter:image" content="https://alex6511.github.io/hidog/assets/android-chrome-512x512.png">
 
-    <meta name="application-name" content="obamify">
+    <meta name="application-name" content="hidog">
     <meta name="format-detection" content="telephone=no">
 
     <!-- config for our rust wasm binary. go to https://trunkrs.dev/assets/#rust for more customization -->
@@ -255,7 +255,7 @@
 
     <!-- Bottom-left corner icons -->
     <div class="bottom-left-icons">
-        <a href="https://github.com/Spu7Nix/obamify" class="icon-link" target="_blank" rel="noopener noreferrer">
+        <a href="https://github.com/Alex6511/hidog" class="icon-link" target="_blank" rel="noopener noreferrer">
             <img src="assets/github-mark-white.svg" alt="source code" />
             <span class="icon-text">source code</span>
         </a>
@@ -270,7 +270,7 @@
         // We disable caching during development so that we always view the latest version.
         if ('serviceWorker' in navigator && window.location.hash !== "#dev") {
             window.addEventListener('load', function () {
-                navigator.serviceWorker.register('sw.js');
+                navigator.serviceWorker.register('./sw.js', { scope: './' });
             });
         }
 
@@ -349,8 +349,8 @@
 
                     await navigator.share({
                         files: [file],
-                        title: 'obamification',
-                        text: 'made with https://obamify.com'
+                        title: 'hidog transformation',
+                        text: 'made with https://alex6511.github.io/hidog/'
                     });
                 } catch (error) {
                     if (error.name !== 'AbortError') {

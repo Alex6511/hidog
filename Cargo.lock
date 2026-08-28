@@ -1686,6 +1686,39 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "dfa686283ad6dd069f105e5ab091b04c62850d3e4cf5d67debad1933f55023df"
 
 [[package]]
+name = "hidog"
+version = "0.3.0"
+dependencies = [
+ "bytemuck",
+ "color_quant",
+ "console_error_panic_hook",
+ "eframe",
+ "egui",
+ "egui-wgpu",
+ "egui_extras",
+ "env_logger",
+ "frand",
+ "futures",
+ "futures-intrusive",
+ "gif",
+ "image",
+ "indexmap",
+ "log",
+ "opener",
+ "palette",
+ "pathfinding",
+ "pollster",
+ "rfd",
+ "serde",
+ "serde-wasm-bindgen",
+ "uuid",
+ "wasm-bindgen",
+ "wasm-bindgen-futures",
+ "web-sys",
+ "wgpu",
+]
+
+[[package]]
 name = "home"
 version = "0.5.11"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2367,39 +2400,6 @@ dependencies = [
  "proc-macro2",
  "quote",
  "syn",
-]
-
-[[package]]
-name = "obamify"
-version = "0.3.0"
-dependencies = [
- "bytemuck",
- "color_quant",
- "console_error_panic_hook",
- "eframe",
- "egui",
- "egui-wgpu",
- "egui_extras",
- "env_logger",
- "frand",
- "futures",
- "futures-intrusive",
- "gif",
- "image",
- "indexmap",
- "log",
- "opener",
- "palette",
- "pathfinding",
- "pollster",
- "rfd",
- "serde",
- "serde-wasm-bindgen",
- "uuid",
- "wasm-bindgen",
- "wasm-bindgen-futures",
- "web-sys",
- "wgpu",
 ]
 
 [[package]]
